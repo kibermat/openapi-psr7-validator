@@ -10,7 +10,7 @@ use League\OpenAPIValidation\Schema\Exception\InvalidSchema;
 use League\OpenAPIValidation\Schema\Exception\KeywordMismatch;
 use League\OpenAPIValidation\Schema\Exception\SchemaMismatch;
 use League\OpenAPIValidation\Schema\SchemaValidator;
-use Respect\Validation\Exceptions\ExceptionInterface;
+use Respect\Validation\Exceptions\ValidationException;
 use Respect\Validation\Validator;
 
 class Not extends BaseKeyword
@@ -42,7 +42,7 @@ class Not extends BaseKeyword
     {
         try {
             Validator::instance(CebeSchema::class)->assert($not);
-        } catch (ExceptionInterface $e) {
+        } catch (ValidationException $e) {
             throw InvalidSchema::becauseDefensiveSchemaValidationFailed($e);
         }
 

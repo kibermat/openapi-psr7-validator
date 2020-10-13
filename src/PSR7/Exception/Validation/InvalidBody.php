@@ -16,8 +16,12 @@ class InvalidBody extends AddressValidationFailed
         SchemaMismatch $prev
     ) : self {
         $exception          = static::fromAddrAndPrev($addr, $prev);
-        $exception->message = sprintf('Body does not match schema for content-type "%s" for %s', $contentType, $addr);
-
+        $exception->message = sprintf('Body does not match schema for content-type "%s" for %s details %s value: %s',
+            $contentType,
+            $addr,
+            json_encode($prev->dataBreadCrumb() ? $prev->dataBreadCrumb()->buildChain() : []),
+            json_encode($prev->data())
+        );
         return $exception;
     }
 

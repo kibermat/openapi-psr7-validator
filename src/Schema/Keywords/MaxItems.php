@@ -6,7 +6,7 @@ namespace League\OpenAPIValidation\Schema\Keywords;
 
 use League\OpenAPIValidation\Schema\Exception\InvalidSchema;
 use League\OpenAPIValidation\Schema\Exception\KeywordMismatch;
-use Respect\Validation\Exceptions\ExceptionInterface;
+use Respect\Validation\Exceptions\ValidationException;
 use Respect\Validation\Validator;
 use function count;
 use function sprintf;
@@ -30,7 +30,7 @@ class MaxItems extends BaseKeyword
             Validator::arrayType()->assert($data);
             Validator::intVal()->assert($maxItems);
             Validator::trueVal()->assert($maxItems >= 0);
-        } catch (ExceptionInterface $e) {
+        } catch (ValidationException $e) {
             throw InvalidSchema::becauseDefensiveSchemaValidationFailed($e);
         }
 

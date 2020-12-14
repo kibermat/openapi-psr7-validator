@@ -19,7 +19,9 @@ class KeywordMismatch extends SchemaMismatch
      */
     public static function fromKeyword(string $keyword, $data, ?string $message = null, ?Throwable $prev = null) : self
     {
-        $instance          = new static('Keyword validation failed: ' . $message, 0, $prev);
+        $instance          = new static(sprintf('Keyword validation failed_: %s ', $message
+
+        ), 0, $prev);
         $instance->keyword = $keyword;
         $instance->data    = $data;
 
@@ -29,5 +31,10 @@ class KeywordMismatch extends SchemaMismatch
     public function keyword() : string
     {
         return $this->keyword;
+    }
+
+    public function err() : string
+    {
+        return $this->getRawData();
     }
 }

@@ -7,6 +7,7 @@ namespace League\OpenAPIValidation\Schema;
 use cebe\openapi\spec\Schema as CebeSchema;
 use cebe\openapi\spec\Type as CebeType;
 use League\OpenAPIValidation\Foundation\ArrayHelper;
+use League\OpenAPIValidation\PSR7\Exception\Validation\InvalidBody;
 use League\OpenAPIValidation\Schema\Exception\SchemaMismatch;
 use League\OpenAPIValidation\Schema\Keywords\AllOf;
 use League\OpenAPIValidation\Schema\Keywords\AnyOf;
@@ -159,8 +160,9 @@ final class SchemaValidator implements Validator
             //   ✓  ok, all checks are done
         } catch (SchemaMismatch $e) {
             $e->hydrateDataBreadCrumb($breadCrumb);
-
-            throw $e;
+            $chain = json_encode($breadCrumb->buildChain());
+            //throw $e;
+            throw new InvalidBody($e->getMessage() . $chain, 0);
         }
     }
 }

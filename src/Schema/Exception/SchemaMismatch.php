@@ -13,6 +13,8 @@ class SchemaMismatch extends Exception
     protected $dataBreadCrumb;
     /** @var mixed */
     protected $data;
+    /** @var mixed */
+    protected $rawData;
 
     public function dataBreadCrumb() : ?BreadCrumb
     {
@@ -21,7 +23,11 @@ class SchemaMismatch extends Exception
 
     public function hydrateDataBreadCrumb(BreadCrumb $dataBreadCrumb) : void
     {
-        if ($this->dataBreadCrumb !== null) {
+        if (!empty($dataBreadCrumb) ) {
+             $this->rawData = json_encode($dataBreadCrumb->buildChain());
+        }
+
+        if ($this->dataBreadCrumb !== null or empty($dataBreadCrumb)) {
             return;
         }
 
@@ -33,6 +39,11 @@ class SchemaMismatch extends Exception
         $this->dataBreadCrumb = $breadCrumb;
 
         return $this;
+    }
+
+    public function getRawData() : string
+    {
+        return $this->rawData;
     }
 
     /**
